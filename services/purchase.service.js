@@ -178,7 +178,7 @@ const checkstock = async (thisChecklist) => {
             // "Host": "api.gentlewomanonline.com",
             "accept": "application/json, text/plain, */*",
             "accept-language": "th-TH,th;q=0.9",
-            "if-none-match": "W/\"cd6-AkyCp2FOZiBT8YmRMZ4YiZ/SH8k\"",
+            // ลบ if-none-match ออก: ETag ที่ hardcode ไว้ทำให้ server ตอบ 304 Not Modified (body ว่าง) เมื่อ ETag ตรงกัน
             "priority": "u=1, i",
             "sec-ch-ua": "\"Google Chrome\";v=\"129\", \"Not=A?Brand\";v=\"8\", \"Chromium\";v=\"129\"",
             "sec-ch-ua-mobile": "?0",
@@ -264,7 +264,14 @@ const purchase = async (orderId) => {
             const userId = memberInfo.data.id;
         
             const memberCart = await getMemberCart(order.auth);
-        
+
+            // กัน null: ถ้าดึงตะกร้าไม่สำเร็จ (เช่นโดน 304 Not Modified body ว่าง) memberCart จะเป็น null
+            // โยน error ให้ catch ด้านล่าง reset order กลับเป็น WAITING แล้วลองใหม่ แทนที่จะ crash เป็น TypeError
+            if (!memberCart || !memberCart.data) {
+                console.log(`ออเดอร์ ${order.id} ดึงข้อมูลตะกร้าสมาชิกไม่สำเร็จ (อาจโดน 304/Not Modified) กำลังรอการลองใหม่...`);
+                throw new Error('ดึงข้อมูลตะกร้าสมาชิกไม่สำเร็จ');
+            }
+
             const addToCartResponse = await addToCart(order.productId, memberCart.data, memberInfo.data, order.skuCode, order.auth);
     
             if (!addToCartResponse || addToCartResponse.result.message !== 'done') {

@@ -1,0 +1,41 @@
+-- CreateTable
+CREATE TABLE `user` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(191) NOT NULL,
+    `token` VARCHAR(191) NOT NULL,
+    `balance` DECIMAL(65, 30) NOT NULL DEFAULT 0,
+    `tel` VARCHAR(191) NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `order` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `userTel` VARCHAR(191) NOT NULL,
+    `cart` JSON NULL,
+    `productId` VARCHAR(191) NOT NULL,
+    `skuCode` VARCHAR(191) NOT NULL,
+    `userId` INTEGER NOT NULL,
+    `memberInfo` JSON NOT NULL,
+    `captcha` JSON NULL,
+    `lineUuid` VARCHAR(191) NOT NULL,
+    `status` ENUM('WAITING', 'PROCESSING', 'SUCCESS', 'FAILED') NOT NULL DEFAULT 'WAITING',
+    `orderType` ENUM('NEW', 'RESTOCK') NOT NULL DEFAULT 'RESTOCK',
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `checklist` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `product_id` VARCHAR(191) NOT NULL,
+    `sku_id` VARCHAR(191) NOT NULL,
+    `status` ENUM('ACTIVE', 'DEACTIVE') NOT NULL DEFAULT 'ACTIVE',
+    `order` JSON NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

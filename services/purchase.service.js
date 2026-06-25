@@ -265,10 +265,13 @@ const purchase = async (orderId) => {
         
             const memberCart = await getMemberCart(order.auth);
 
-            // กัน null: ถ้าดึงตะกร้าไม่สำเร็จ (เช่นโดน 304 Not Modified body ว่าง) memberCart จะเป็น null
-            // โยน error ให้ catch ด้านล่าง reset order กลับเป็น WAITING แล้วลองใหม่ แทนที่จะ crash เป็น TypeError
-            if (!memberCart || !memberCart.data) {
-                console.log(`ออเดอร์ ${order.id} ดึงข้อมูลตะกร้าสมาชิกไม่สำเร็จ (อาจโดน 304/Not Modified) กำลังรอการลองใหม่...`);
+            // DEBUG: ดูว่า getMemberCart คืนอะไรจริง ๆ
+            console.log(`ออเดอร์ ${order.id} getMemberCart =>`, JSON.stringify(memberCart));
+
+            // กันเฉพาะกรณี "ดึงตะกร้าไม่สำเร็จจริง" คือ getMemberCart คืน null (network/304/auth พัง)
+            // หมายเหตุ: memberCart.data === null เป็นเรื่องปกติของออเดอร์ NEW (ตะกร้าว่าง) -> addToCart จะสร้างตะกร้าใหม่ให้เอง ห้าม throw
+            if (!memberCart) {
+                console.log(`ออเดอร์ ${order.id} ดึงข้อมูลตะกร้าสมาชิกไม่สำเร็จ (getMemberCart คืน null) กำลังรอการลองใหม่...`);
                 throw new Error('ดึงข้อมูลตะกร้าสมาชิกไม่สำเร็จ');
             }
 

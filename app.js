@@ -15,7 +15,7 @@ const getMemberCart = async (token) => {
           'accept': 'application/json, text/plain, */*',
           'accept-language': 'th-TH,th;q=0.9',
           'Authorization': `Bearer ${token}`,
-          'if-none-match': 'W/"1e-RzAxu20wYTihj0IC3gjZx7kZnAc"',
+          // ลบ if-none-match ออก: ETag ที่ hardcode ทำให้ server ตอบ 304 Not Modified (body ว่าง) -> ดึงตะกร้าไม่ได้
           'origin': 'https://www.gentlelittlewoman.com',
           'priority': 'u=1, i',
           'referer': 'https://www.gentlelittlewoman.com/',
@@ -44,7 +44,7 @@ const getMemberInfo = async (token) => {
                 "accept": "application/json, text/plain, */*",
                 "accept-language": "en-US,en;q=0.9",
                 "authorization": `Bearer ${token}`,
-                "if-none-match": "W/\"4a8-YCHoCZWSZCspiBm31idLBNfz9+I\"",
+                // ลบ if-none-match ออก: กัน 304 Not Modified body ว่าง -> ดึงข้อมูลสมาชิกไม่ได้
                 "priority": "u=1, i",
                 "sec-ch-ua": "\"Not(A:Brand\";v=\"8\", \"Chromium\";v=\"144\", \"Google Chrome\";v=\"144\"",
                 "sec-ch-ua-mobile": "?0",
@@ -71,7 +71,7 @@ const checkProduct = async (productId) => {
         headers: {
             "accept": "application/json, text/plain, */*",
             "accept-language": "th-TH,th;q=0.9",
-            "if-none-match": "W/\"cd6-AkyCp2FOZiBT8YmRMZ4YiZ/SH8k\"",
+            // ลบ if-none-match ออก: กัน 304 Not Modified body ว่าง -> ดึงข้อมูลสินค้าไม่ได้
             "priority": "u=1, i",
             "sec-ch-ua": "\"Google Chrome\";v=\"129\", \"Not=A?Brand\";v=\"8\", \"Chromium\";v=\"129\"",
             "sec-ch-ua-mobile": "?0",

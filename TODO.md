@@ -25,6 +25,20 @@
 
 ---
 
+### 4. [รอแก้] 400 Bad Request ตอนยิงออเดอร์ เมื่อจำนวนสินค้า (amount) > 1
+- **สถานะ: รอแก้ — ยังไม่แก้ (ย้อนโค้ดกลับเป็นของเดิมแล้ว)**
+- **จุด**: `purchase.service.js` ในการสร้าง `skusList` — บรรทัด `full_price` และ `price` ใช้ `e.price * e.amount`
+- **อาการ**: order ที่ amount = 1 ยิงผ่าน แต่ amount ≥ 2 โดน 400 Bad Request
+- **วิเคราะห์ (พิสูจน์จาก log order 41)**:
+  - ราคาต่อชิ้น 1770 × 3 ชิ้น → โค้ดใส่ `price = 5310` **พร้อมส่ง** `amount = 3`
+  - server คิดซ้ำ `price × amount` = 5310 × 3 = 15930 ≠ `debt_amount` 5310 → 400
+  - ที่ amount = 1 บั๊กไม่โผล่เพราะ `price × 1` บังเอิญตรงยอดพอดี
+- **แนวทางแก้ (เมื่อพร้อม)**: เปลี่ยน `price`/`full_price` เป็นราคาต่อชิ้น `e.price` (คง `totalPrice += e.price * e.amount` ไว้สำหรับ payments)
+  - ⚠️ ก่อนแก้จริง ควร capture request ตอน checkout สินค้า 2+ ชิ้น จากหน้าเว็บจริง (DevTools) เพื่อยืนยันสเปก field `price`/`full_price`/`amount` ให้ตรง 100%
+- **หมายเหตุ**: บั๊กนี้เป็นโค้ดเดิมตั้งแต่ต้น ไม่เกี่ยวกับการรีแฟคเตอร์ config (config ของ Gentlewoman ให้ค่าเท่าเดิมทุกตัว)
+
+---
+
 ## ⚠️ ต้องยืนยันด้วยการทดสอบ (ก่อนใช้ Matter Makers จริง)
 
 ### 3. ยืนยันค่า `brand` ของ Matter Makers ใน `config.js`
@@ -35,6 +49,7 @@
 ---
 
 ## ✅ ที่แก้ไปแล้ว (บันทึกไว้เป็นบริบท)
+
 
 - **แก้ปัญหา 304 Not Modified**: ลบ header `if-none-match` ที่ hardcode ไว้ออกจากทุก request
   (`getMemberCart`, `getMemberInfo`, `checkProduct` ใน `app.js` + `checkstock` ใน `purchase.service.js`)

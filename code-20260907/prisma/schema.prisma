@@ -1,0 +1,65 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model user {
+  id                Int         @id @default(autoincrement())
+  name              String
+  token             String    @db.LongText
+  balance           Decimal     @default(0)
+  tel               String
+  createdAt         DateTime    @default(now())
+}
+
+model order {
+  id                Int         @id @default(autoincrement())
+  userTel           String
+  cart              Json?
+  auth              String?     @db.LongText
+  productId         String
+  skuCode           String
+  userId            Int
+  memberInfo        Json
+  captcha           Json?
+  lineUuid          String
+  status            orderStatus   @default(WAITING)
+  orderType         orderType   @default(RESTOCK)
+  createdAt         DateTime    @default(now())
+}
+
+model checklist {
+  id                Int         @id @default(autoincrement())
+  product_id        String
+  sku_id            String
+  status            checklistStatus @default(ACTIVE)
+  order             Json?
+  createdAt         DateTime    @default(now())
+}
+
+enum checklistStatus {
+  ACTIVE
+  DEACTIVE
+}
+
+enum orderStatus {
+  WAITING
+  PROCESSING
+  SUCCESS
+  FAILED
+}
+
+enum orderType {
+  NEW
+  RESTOCK
+}

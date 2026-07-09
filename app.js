@@ -3,6 +3,7 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const readline = require('readline');
 const { sendLineMsgController } = require('./services/sendlinemsg.service');
+const shop = require('./config');
 
 const rl = readline.createInterface({
     input: process.stdin,
@@ -10,15 +11,15 @@ const rl = readline.createInterface({
 });
 
 const getMemberCart = async (token) => {
-    return axios.get(`https://api.gentlewomanonline.com/public/5e3548c2d32cb12606a34fb8/carts/member/data`, {
+    return axios.get(`${shop.apiBase}/carts/member/data`, {
         headers: {
           'accept': 'application/json, text/plain, */*',
           'accept-language': 'th-TH,th;q=0.9',
           'Authorization': `Bearer ${token}`,
           // ลบ if-none-match ออก: ETag ที่ hardcode ทำให้ server ตอบ 304 Not Modified (body ว่าง) -> ดึงตะกร้าไม่ได้
-          'origin': 'https://www.gentlelittlewoman.com',
+          'origin': shop.origin,
           'priority': 'u=1, i',
-          'referer': 'https://www.gentlelittlewoman.com/',
+          'referer': shop.referer,
           'sec-ch-ua': '"Google Chrome";v="129", "Not=A?Brand";v="8", "Chromium";v="129"',
           'sec-ch-ua-mobile': '?0',
           'sec-ch-ua-platform': '"Windows"',
@@ -39,7 +40,7 @@ const getMemberCart = async (token) => {
 
 const getMemberInfo = async (token) => {
     try {
-        const response = await fetch("https://api.gentlewomanonline.com/public/5e3548c2d32cb12606a34fb8/members/info", {
+        const response = await fetch(`${shop.apiBase}/members/info`, {
             "headers": {
                 "accept": "application/json, text/plain, */*",
                 "accept-language": "en-US,en;q=0.9",
@@ -52,7 +53,7 @@ const getMemberInfo = async (token) => {
                 "sec-fetch-dest": "empty",
                 "sec-fetch-mode": "cors",
                 "sec-fetch-site": "same-site",
-                "Referer": "https://www.gentlewomanonline.com/"
+                "Referer": shop.referer
         },
             "body": null,
             "method": "GET"
@@ -67,7 +68,7 @@ const getMemberInfo = async (token) => {
 }
 
 const checkProduct = async (productId) => {
-    return axios.get(`https://api.gentlewomanonline.com/public/5e3548c2d32cb12606a34fb8/products/${productId}`, {
+    return axios.get(`${shop.apiBase}/products/${productId}`, {
         headers: {
             "accept": "application/json, text/plain, */*",
             "accept-language": "th-TH,th;q=0.9",

@@ -39,7 +39,9 @@ class ToolsLineShopping():
 
             pseudo_variant = {
                 "price": product.get("price"),
-                "id": product.get("product_snapshot_id"),
+                # สินค้าไม่มี variant -> productVariantId ต้องเป็น null (ตามที่เว็บ LINE Shopping จริงส่ง)
+                # เดิมใส่ product_snapshot_id ทำให้ place_order หา snapshot ไม่เจอ (error 1702)
+                "id": None,
                 "variant_option_value1": None,
                 "variant_option_value2": None,
                 "img_url": product.get("img_url"),
@@ -163,6 +165,7 @@ class ToolsLineShopping():
         รองรับทั้งสินค้ามี size และไม่มี size
         """
         product = (data_product or {}).get("data", {})
+        has_variant = bool(product.get("has_variant", False))
         product_id = product.get("id")
         shop_id = product.get("shop_id")
 
@@ -194,10 +197,12 @@ class ToolsLineShopping():
         variant = result["variant"]
         variant_id = variant.get("id")
 
-        if not variant_id:
+        # สินค้ามี variant แต่หา id ไม่เจอ = ผิดปกติ -> error
+        # สินค้าไม่มี variant (has_variant=false) -> variant_id เป็น None ได้ และต้องส่ง productVariantId: null
+        if has_variant and not variant_id:
             return {
                 "ok": False,
-                "message": "ไม่พบ productVariantId / product_snapshot_id",
+                "message": "ไม่พบ productVariantId",
                 "payload": None,
                 "variant": variant
             }

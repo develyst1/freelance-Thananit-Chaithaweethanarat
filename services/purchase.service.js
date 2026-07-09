@@ -4,6 +4,7 @@ const prisma = new PrismaClient();
 const { HttpsProxyAgent } = require('https-proxy-agent');
 const { sendLineMsgController } = require('../services/sendlinemsg.service');
 const { getMemberInfo, getMemberCart, addToCart } = require('../app');
+const shop = require('../config');
 // const { getMemberInfo, getMemberCart, addToCart, checkProduct } = require('../app');
 
 const proxies = [
@@ -56,9 +57,9 @@ async function capsolver() {
     let captcha;
 
     const api_key = 'CAP-D2E36C98131C55173468F9524C5C0376689D5DD1C820959DC1745263BB1A9560';
-    const site_url = "https://www.gentlewomanonline.com";
+    const site_url = shop.turnstile.siteUrl;
 
-    const site_key = "0x4AAAAAAACIwpy0TIYPN4ef";
+    const site_key = shop.turnstile.siteKey;
 
     const payload = {
         clientKey: api_key,
@@ -173,7 +174,7 @@ setInterval(async () => {
 const checkstock = async (thisChecklist) => {
     const { proxy, index, dns } = getNextProxy();
     const start = Date.now();
-    axios.get(`https://api.gentlewomanonline.com/public/5e3548c2d32cb12606a34fb8/products/${thisChecklist.product_id}`, {
+    axios.get(`${shop.apiBase}/products/${thisChecklist.product_id}`, {
         headers: {
             // "Host": "api.gentlewomanonline.com",
             "accept": "application/json, text/plain, */*",
@@ -186,7 +187,7 @@ const checkstock = async (thisChecklist) => {
             "sec-fetch-dest": "empty",
             "sec-fetch-mode": "cors",
             "sec-fetch-site": "same-site",
-            "Referer": "https://www.gentlewomanonline.com/",
+            "Referer": shop.referer,
             "Referrer-Policy": "strict-origin-when-cross-origin"
         },
         timeout: 2000,
@@ -393,19 +394,19 @@ const purchase = async (orderId) => {
             "warehouse": null,
             "dhl_packages": [],
             "gender": "male",
-            "brand": "Gentlewoman",
+            "brand": shop.brand,
             "channel": "web"
         };
     
-        axios.post('https://api.gentlewomanonline.com/public/5e3548c2d32cb12606a34fb8/orders', data, {
+        axios.post(`${shop.apiBase}/orders`, data, {
             headers: {
                 'accept': 'application/json, text/plain, */*',
                 'accept-language': 'th-TH,th;q=0.9',
                 'cf-turnstile-response': captcha,
                 'content-type': 'application/json',
-                'origin': 'https://www.gentlewomanonline.com',
+                'origin': shop.origin,
                 'priority': 'u=1, i',
-                'referer': 'https://www.gentlewomanonline.com/',
+                'referer': shop.referer,
                 'sec-ch-ua': '"Google Chrome";v="129", "Not=A?Brand";v="8", "Chromium";v="129"',
                 'sec-ch-ua-mobile': '?0',
                 'sec-ch-ua-platform': '"Windows"',
@@ -426,8 +427,8 @@ const purchase = async (orderId) => {
                         status: 'SUCCESS'
                     }
                 });
-                await sendLineMsgController(order.lineUuid, `GentleWomanBot : เบอร์ ${order.userTel} ทำการสั่งซื้อสินค้า ${productData.name} สำเร็จแล้ว กรุณาตรวจสอบรายการสินค้าและชำระเงินที่ : https://www.gentlewomanonline.com/ ขอบคุณที่ใช้บริการ`);
-                await sendLineMsgController('U6e162d9178e4fd734e7a98ced75377c5', `GentleWomanBot : เบอร์ ${order.userTel} ทำการสั่งซื้อสินค้า ${productData.name} สำเร็จแล้ว กรุณาตรวจสอบรายการสินค้าและชำระเงินที่ : https://www.gentlewomanonline.com/ ขอบคุณที่ใช้บริการ`);
+                await sendLineMsgController(order.lineUuid, `${shop.botName} : เบอร์ ${order.userTel} ทำการสั่งซื้อสินค้า ${productData.name} สำเร็จแล้ว กรุณาตรวจสอบรายการสินค้าและชำระเงินที่ : ${shop.storeUrl} ขอบคุณที่ใช้บริการ`);
+                await sendLineMsgController('U6e162d9178e4fd734e7a98ced75377c5', `${shop.botName} : เบอร์ ${order.userTel} ทำการสั่งซื้อสินค้า ${productData.name} สำเร็จแล้ว กรุณาตรวจสอบรายการสินค้าและชำระเงินที่ : ${shop.storeUrl} ขอบคุณที่ใช้บริการ`);
             } else {
                 throw new Error('Purchased Failed');
             }
@@ -443,8 +444,8 @@ const purchase = async (orderId) => {
                     captcha: null
                 }
             });
-            await sendLineMsgController(order.lineUuid, `GentleWomanBot : เบอร์ ${order.userTel} ทำการสั่งซื้อสินค้า ${productData.name} ล้มเหลว กำลังรอการลองใหม่...`);
-            await sendLineMsgController('U6e162d9178e4fd734e7a98ced75377c5', `GentleWomanBot : เบอร์ ${order.userTel} ทำการสั่งซื้อสินค้า ${productData.name} ล้มเหลว กำลังรอการลองใหม่...`);
+            await sendLineMsgController(order.lineUuid, `${shop.botName} : เบอร์ ${order.userTel} ทำการสั่งซื้อสินค้า ${productData.name} ล้มเหลว กำลังรอการลองใหม่...`);
+            await sendLineMsgController('U6e162d9178e4fd734e7a98ced75377c5', `${shop.botName} : เบอร์ ${order.userTel} ทำการสั่งซื้อสินค้า ${productData.name} ล้มเหลว กำลังรอการลองใหม่...`);
         });
     } catch (err) {
         console.log('Try Catch Error', err);

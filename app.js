@@ -80,7 +80,7 @@ const checkProduct = async (productId) => {
             "sec-fetch-dest": "empty",
             "sec-fetch-mode": "cors",
             "sec-fetch-site": "same-site",
-            "Referer": "https://www.gentlewomanonline.com/",
+            "Referer": shop.referer,
             "Referrer-Policy": "strict-origin-when-cross-origin"
         }
     })
@@ -133,15 +133,15 @@ const addToCart = async (productId, memberCart, memberInfo, skuCode, token) => {
         };
 
         if (cartId) {
-            return axios.patch(`https://api.gentlewomanonline.com/public/5e3548c2d32cb12606a34fb8/carts/${cartId}/add`, data, {
+            return axios.patch(`${shop.apiBase}/carts/${cartId}/add`, data, {
                 headers: {
                 'accept': 'application/json, text/plain, */*',
                 'accept-language': 'th-TH,th;q=0.9',
                 'content-type': 'application/json',
                 'Authorization': `Bearer ${token}`,
-                'origin': 'https://www.gentlewomanonline.com',
+                'origin': shop.origin,
                 'priority': 'u=1, i',
-                'referer': 'https://www.gentlewomanonline.com/',
+                'referer': shop.referer,
                 'sec-ch-ua': '"Google Chrome";v="129", "Not=A?Brand";v="8", "Chromium";v="129"',
                 'sec-ch-ua-mobile': '?0',
                 'sec-ch-ua-platform': '"Windows"',
@@ -159,8 +159,8 @@ const addToCart = async (productId, memberCart, memberInfo, skuCode, token) => {
                 return null;
             });
         } else {
-            return axios.post(`https://api.gentlewomanonline.com/public/5e3548c2d32cb12606a34fb8/carts`, {
-                brand: 'Gentlewoman',
+            return axios.post(`${shop.apiBase}/carts`, {
+                brand: shop.brand,
                 items: [data],
                 member: {
                     email: memberInfo.email,
@@ -174,10 +174,10 @@ const addToCart = async (productId, memberCart, memberInfo, skuCode, token) => {
                 'accept': 'application/json, text/plain, */*',
                 'accept-language': 'th-TH,th;q=0.9',
                 'content-type': 'application/json',
-                'origin': 'https://www.gentlewomanonline.com',
+                'origin': shop.origin,
                 'Authorization': `Bearer ${token}`,
                 'priority': 'u=1, i',
-                'referer': 'https://www.gentlewomanonline.com/',
+                'referer': shop.referer,
                 'sec-ch-ua': '"Google Chrome";v="129", "Not=A?Brand";v="8", "Chromium";v="129"',
                 'sec-ch-ua-mobile': '?0',
                 'sec-ch-ua-platform': '"Windows"',
@@ -319,7 +319,7 @@ const makeOrder = async () => {
                                 console.log(`ออเดอร์ที่ ${createdOrder.id} ได้ถูกสร้างสำเร็จแล้ว!`);
                                 console.log(`=================================\n\n`);
             
-                                await sendLineMsgController(lineUuid, `GentleWomanBot : ทำการสร้างรายการสินค้า ${productDetails.data.name} สำเร็จแล้ว กำลังรอสินค้าเติมสต๊อก....`);
+                                await sendLineMsgController(lineUuid, `${shop.botName} : ทำการสร้างรายการสินค้า ${productDetails.data.name} สำเร็จแล้ว กำลังรอสินค้าเติมสต๊อก....`);
                                 start();
                             });
                         });

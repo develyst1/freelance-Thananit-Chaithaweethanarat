@@ -7,6 +7,12 @@ const { getMemberInfo, getMemberCart, addToCart } = require('../app');
 const shop = require('../config');
 // const { getMemberInfo, getMemberCart, addToCart, checkProduct } = require('../app');
 
+// helper จับเวลา (debug ความเร็ว) -> HH:MM:SS.mmm ตามเวลาเครื่อง
+const ts = () => {
+    const d = new Date();
+    return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}:${String(d.getSeconds()).padStart(2, '0')}.${String(d.getMilliseconds()).padStart(3, '0')}`;
+};
+
 const proxies = [
     { host: 'v2.proxyempire.io', port: 5000, auth: { username: 'r_30a858cea3-country-th', password: '619e242cd5' } },
     { host: 'v2.proxyempire.io', port: 5000, auth: { username: 'r_30a858cea3-country-th', password: '619e242cd5' } },
@@ -209,6 +215,7 @@ const checkstock = async (thisChecklist) => {
         const second = now.getSeconds();
         
         if ((on_reserved_qty < on_hand_qty) && hour >= 10 && minute >= 0 && second >= 0) {
+            console.log(`[${ts()}] 🟢 STOCK OPEN | product ${thisChecklist.product_id} sku ${thisChecklist.sku_id} | reserved ${on_reserved_qty} < on_hand ${on_hand_qty} | proxyTime ${Date.now() - start}ms | orders=[${thisChecklist.order}]`);
             const promisesOrder = thisChecklist.order.map(async e => {
                 await purchase(e);
             });
@@ -235,8 +242,9 @@ const purchase = async (orderId) => {
     }
 
     try {
-        console.log('Purchasing...');
-    
+        const t0 = Date.now();
+        console.log(`[${ts()}] order ${order.id} purchase() start (type=${order.orderType}, hasCart=${!!order.cart})`);
+
         await prisma.order.update({
             where: {
                 id: order.id
@@ -248,7 +256,8 @@ const purchase = async (orderId) => {
     
         if (order.orderType == 'NEW' && !order.cart) {
             const memberInfo = await getMemberInfo(String(order.auth));
-        
+            console.log(`[${ts()}] order ${order.id} getMemberInfo done +${Date.now() - t0}ms`);
+
             if (!memberInfo || memberInfo.message !== 'done') {
                 console.log(`ออเดอร์ ${order.id} ไม่พบสมาชิกที่ตรงกับเบอร์โทรนี้`);
                 await prisma.order.update({
@@ -265,6 +274,7 @@ const purchase = async (orderId) => {
             const userId = memberInfo.data.id;
         
             const memberCart = await getMemberCart(order.auth);
+            console.log(`[${ts()}] order ${order.id} getMemberCart done +${Date.now() - t0}ms`);
 
             // DEBUG: ดูว่า getMemberCart คืนอะไรจริง ๆ
             console.log(`ออเดอร์ ${order.id} getMemberCart =>`, JSON.stringify(memberCart));
@@ -277,7 +287,8 @@ const purchase = async (orderId) => {
             }
 
             const addToCartResponse = await addToCart(order.productId, memberCart.data, memberInfo.data, order.skuCode, order.auth);
-    
+            console.log(`[${ts()}] order ${order.id} addToCart done +${Date.now() - t0}ms`);
+
             if (!addToCartResponse || addToCartResponse.result.message !== 'done') {
                 console.log('เพิ่มสินค้าเข้าตะกร้าล้มเหลว กรุณาลองใหม่อีกครั้ง!');
                 throw new Error('เพิ่มสินค้าเข้าตะกร้าล้มเหลว กรุณาลองใหม่อีกครั้ง!');
@@ -327,7 +338,9 @@ const purchase = async (orderId) => {
                 "description": "",
                 "is_on_web": true,
                 "option": "",
-                "full_price": e.price * e.amount,
+                // ต้องเป็น "ราคาต่อชิ้น" ตามสเปก API (ดู addToCart ใน app.js ที่ใช้ selectedSku.price + amount)
+                // เดิมใส่ e.price * e.amount (ราคารวม) พร้อมส่ง amount ไปด้วย -> server คูณซ้ำ -> ยอดไม่ตรง debt_amount -> 400
+                "full_price": e.price,
                 "images": [productData.photo_urls[0]],
                 "categories": productData.categories,
                 "gw_collection": productData.gw_collection,
@@ -337,7 +350,8 @@ const purchase = async (orderId) => {
                 "variant": "SKU",
                 "pre_order": false,
                 "pre_order_note": "",
-                "price": e.price * e.amount,
+                // ราคาต่อชิ้น (ให้ amount เป็นตัวคูณ) -> sum(price × amount) จะเท่ากับ debt_amount พอดี
+                "price": e.price,
                 "amount": e.amount
             }
         })
@@ -398,6 +412,7 @@ const purchase = async (orderId) => {
             "channel": "web"
         };
     
+        console.log(`[${ts()}] order ${order.id} sending order POST +${Date.now() - t0}ms`);
         axios.post(`${shop.apiBase}/orders`, data, {
             headers: {
                 'accept': 'application/json, text/plain, */*',
@@ -417,6 +432,7 @@ const purchase = async (orderId) => {
             } 
         })
         .then(async response => {
+            console.log(`[${ts()}] order ${order.id} ✅ order RESPONSE +${Date.now() - t0}ms | msg=${response.data.message}`);
             console.log(response.data);
             if (response.data.message == 'done') {
                 await prisma.order.update({
@@ -434,6 +450,7 @@ const purchase = async (orderId) => {
             }
         })
         .catch(async error => {
+            console.log(`[${ts()}] order ${order.id} ❌ order FAILED +${Date.now() - t0}ms | status=${error.response?.status}`);
             console.error('Purchase Error:', error);
             await prisma.order.update({
                 where: {

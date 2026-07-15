@@ -1,0 +1,467 @@
+
+C:\Users\ACER\Desktop\bot-api>cd services
+
+C:\Users\ACER\Desktop\bot-api\services>node purchase.service.js
+
+[CONFIG] ร้านที่ใช้งาน: Gentlewoman  (store_id: 5e3548c2d32cb12606a34fb8)
+
+Start making an order...
+
+กรุณาระบุ Line Uuid : 500 0 64
+[20:14:49.051] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 502ms | orders=[53]
+652 0 64
+[20:14:49.086] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 653ms | orders=[53]
+426 0 64
+[20:14:49.189] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 427ms | orders=[53]
+917 0 64
+[20:14:49.260] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 917ms | orders=[53]
+435 0 64
+[20:14:49.306] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 435ms | orders=[53]
+469 0 64
+[20:14:49.447] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 469ms | orders=[53]
+466 0 64
+[20:14:49.545] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 466ms | orders=[53]
+518 0 64
+[20:14:49.707] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 518ms | orders=[53]
+490 0 64
+[20:14:49.777] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 490ms | orders=[53]
+384 0 64
+[20:14:49.781] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 384ms | orders=[53]
+416 0 64
+[20:14:49.913] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 416ms | orders=[53]
+478 0 64
+[20:14:50.087] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 479ms | orders=[53]
+385 0 64
+[20:14:50.097] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 385ms | orders=[53]
+393 0 64
+[20:14:50.216] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 393ms | orders=[53]
+419 0 64
+[20:14:50.350] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 419ms | orders=[53]
+1885 0 64
+[20:14:50.541] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 1885ms | orders=[53]
+447 0 64
+[20:14:50.595] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 447ms | orders=[53]
+606 0 64
+[20:14:50.646] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 606ms | orders=[53]
+616 0 64
+[20:14:50.875] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 617ms | orders=[53]
+424 0 64
+[20:14:50.900] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 424ms | orders=[53]
+718 0 64
+[20:14:51.083] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 718ms | orders=[53]
+391 0 64
+[20:14:51.085] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 391ms | orders=[53]
+450 0 64
+[20:14:51.353] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 450ms | orders=[53]
+427 0 64
+[20:14:51.432] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 428ms | orders=[53]
+450 0 64
+[20:14:51.561] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 450ms | orders=[53]
+879 0 64
+[20:14:51.682] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 880ms | orders=[53]
+386 0 64
+[20:14:51.930] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 386ms | orders=[53]
+619 0 64
+[20:14:52.051] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 619ms | orders=[53]
+913 0 64
+[20:14:52.241] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 914ms | orders=[53]
+454 0 64
+[20:14:52.318] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 454ms | orders=[53]
+736 0 64
+[20:14:52.380] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 736ms | orders=[53]
+684 0 64
+[20:14:52.442] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 684ms | orders=[53]
+2023 0 64
+[20:14:52.608] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 2023ms | orders=[53]
+499 0 64
+[20:14:52.688] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 499ms | orders=[53]
+444 0 64
+[20:14:52.850] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 444ms | orders=[53]
+590 0 64
+[20:14:52.887] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 590ms | orders=[53]
+401 0 64
+[20:14:53.025] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 402ms | orders=[53]
+970 0 64
+[20:14:53.052] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 971ms | orders=[53]
+583 0 64
+[20:14:53.100] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 584ms | orders=[53]
+382 0 64
+[20:14:53.105] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 382ms | orders=[53]
+462 0 64
+[20:14:53.297] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 462ms | orders=[53]
+2154 0 64
+[20:14:53.374] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 2155ms | orders=[53]
+456 0 64
+[20:14:53.402] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 456ms | orders=[53]
+386 0 64
+[20:14:53.655] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 386ms | orders=[53]
+564 0 64
+[20:14:53.725] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 564ms | orders=[53]
+459 0 64
+[20:14:53.833] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 459ms | orders=[53]
+1872 0 64
+[20:14:53.846] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 1872ms | orders=[53]
+842 0 64
+[20:14:53.895] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 842ms | orders=[53]
+1731 0 64
+[20:14:56.088] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 1731ms | orders=[53]
+2494 0 64
+[20:14:56.090] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 2494ms | orders=[53]
+2386 0 64
+[20:14:56.091] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 2386ms | orders=[53]
+1967 0 64
+[20:14:56.106] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 1967ms | orders=[53]
+2715 0 64
+[20:14:56.530] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 2716ms | orders=[53]
+1751 0 64
+[20:14:56.543] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 1751ms | orders=[53]
+2552 0 64
+[20:14:56.582] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 2552ms | orders=[53]
+1700 0 64
+[20:14:56.711] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 1700ms | orders=[53]
+2484 0 64
+[20:14:56.732] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 2484ms | orders=[53]
+2491 0 64
+[20:14:56.957] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 2491ms | orders=[53]
+2078 0 64
+[20:14:56.979] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 2078ms | orders=[53]
+1765 0 64
+[20:14:56.997] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 1765ms | orders=[53]
+1963 0 64
+[20:14:57.084] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 1964ms | orders=[53]
+2572 0 64
+[20:14:57.148] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 2572ms | orders=[53]
+1673 0 64
+[20:14:57.231] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 1673ms | orders=[53]
+1824 0 64
+[20:14:57.274] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 1824ms | orders=[53]
+1691 0 64
+[20:14:57.356] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 1691ms | orders=[53]
+1901 0 64
+[20:14:57.782] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 1901ms | orders=[53]
+3098 0 64
+[20:14:57.783] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 3098ms | orders=[53]
+1795 0 64
+[20:14:57.784] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 1795ms | orders=[53]
+1696 0 64
+[20:14:57.785] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 1696ms | orders=[53]
+2032 0 64
+[20:14:57.805] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 2033ms | orders=[53]
+1745 0 64
+[20:14:57.936] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 1745ms | orders=[53]
+2655 0 64
+[20:14:57.995] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 2655ms | orders=[53]
+4089 0 64
+[20:14:58.010] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 4089ms | orders=[53]
+1851 0 64
+[20:14:58.260] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 1851ms | orders=[53]
+1756 0 64
+[20:14:58.276] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 1756ms | orders=[53]
+1714 0 64
+[20:14:58.340] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 1714ms | orders=[53]
+1696 0 64
+[20:14:58.426] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 1696ms | orders=[53]
+1824 0 64
+[20:14:58.667] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 1824ms | orders=[53]
+2042 0 64
+[20:14:58.996] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 2042ms | orders=[53]
+1926 0 64
+[20:14:59.094] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 1926ms | orders=[53]
+1709 0 64
+[20:14:59.096] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 1709ms | orders=[53]
+527 0 64
+[20:14:59.097] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 527ms | orders=[53]
+1774 0 64
+[20:14:59.271] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 1774ms | orders=[53]
+491 0 64
+[20:14:59.375] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 492ms | orders=[53]
+1889 0 64
+[20:14:59.497] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 1891ms | orders=[53]
+1792 0 64
+[20:14:59.607] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 1792ms | orders=[53]
+1707 0 64
+[20:14:59.623] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 1707ms | orders=[53]
+1697 0 64
+[20:14:59.723] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 1698ms | orders=[53]
+2072 0 64
+[20:14:59.787] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 2072ms | orders=[53]
+2783 0 64
+[20:14:59.844] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 2783ms | orders=[53]
+1870 0 64
+[20:15:00.005] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 1870ms | orders=[53]
+1678 0 64
+[20:15:00.026] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 1679ms | orders=[53]
+1844 0 64
+[20:15:00.088] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 1844ms | orders=[53]
+1680 0 64
+[20:15:00.141] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 1680ms | orders=[53]
+1582 0 64
+[20:15:00.256] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 1582ms | orders=[53]
+1471 0 64
+[20:15:00.463] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 1471ms | orders=[53]
+1903 0 64
+[20:15:00.674] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 1903ms | orders=[53]
+7481 0 64
+[20:15:00.969] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 7481ms | orders=[53]
+1881 0 64
+[20:15:00.974] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 1881ms | orders=[53]
+1163 0 64
+[20:15:01.102] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 1163ms | orders=[53]
+2028 0 64
+[20:15:01.453] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 2028ms | orders=[53]
+1734 0 64
+[20:15:01.563] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 1734ms | orders=[53]
+2031 0 64
+[20:15:01.656] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 2031ms | orders=[53]
+550 0 64
+[20:15:01.873] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 551ms | orders=[53]
+737 0 64
+[20:15:01.943] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 737ms | orders=[53]
+1592 0 64
+[20:15:02.056] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 1592ms | orders=[53]
+968 0 64
+[20:15:02.073] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 968ms | orders=[53]
+Upstream error : v2.proxyempire.io
+890 0 64
+[20:15:02.313] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 890ms | orders=[53]
+883 0 64
+[20:15:02.413] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 883ms | orders=[53]
+1990 0 64
+[20:15:02.777] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 1990ms | orders=[53]
+2229 0 64
+[20:15:02.904] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 2229ms | orders=[53]
+804 0 64
+[20:15:02.983] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 804ms | orders=[53]
+Order : 53 Captcha generated successful!
+Upstream error : v2.proxyempire.io
+2197 0 64
+[20:15:03.200] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 2197ms | orders=[53]
+[20:15:03.202] order 53 purchase() start (type=NEW, hasCart=false)
+3169 0 64
+[20:15:03.214] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 3169ms | orders=[53]
+2327 0 64
+[20:15:03.221] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 2327ms | orders=[53]
+2871 0 64
+[20:15:03.226] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 2871ms | orders=[53]
+1426 0 64
+[20:15:03.284] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 1427ms | orders=[53]
+2722 0 64
+[20:15:03.293] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 2722ms | orders=[53]
+845 0 64
+[20:15:03.352] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 845ms | orders=[53]
+1064 0 64
+[20:15:03.357] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 1065ms | orders=[53]
+4156 0 64
+[20:15:03.363] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 4156ms | orders=[53]
+[20:15:03.414] order 53 getMemberInfo done +212ms
+Upstream error : v2.proxyempire.io
+[20:15:03.557] order 53 getMemberCart done +355ms
+ออเดอร์ 53 getMemberCart => {"message":"done","data":{"store":{"name":"gentlewoman","id":"5e3548c2d32cb12606a34fb8"},"status":"active","items":[],"member":{"first_name":"มงคล","last_name":"เรืองศิริ","tel":"+66933956362","id":925759},"shipping_fee":{"country":"Thailand","price":0},"cart_type":"anonymous","channel":"web","brand":"Gentlelittlewoman","created_at":"2026-07-09T14:26:57.170Z","updated_at":"2026-07-15T13:13:22.841Z","id":"6a4fafb16a38a35eae5e225a"}}
+846 0 64
+[20:15:03.565] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 846ms | orders=[53]
+701 0 64
+[20:15:03.728] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 701ms | orders=[53]
+[20:15:03.744] order 53 addToCart done +542ms
+Added to cart... Purchasing...
+[20:15:03.753] order 53 sending order POST +551ms
+4463 0 64
+[20:15:03.779] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 4463ms | orders=[53]
+1710 0 64
+[20:15:03.780] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 1710ms | orders=[53]
+2042 0 64
+[20:15:03.789] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 2043ms | orders=[53]
+456 0 64
+[20:15:04.127] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 456ms | orders=[53]
+6932 0 64
+[20:15:04.209] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 6933ms | orders=[53]
+437 0 64
+[20:15:04.213] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 437ms | orders=[53]
+2352 0 64
+[20:15:04.316] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 2352ms | orders=[53]
+1398 0 64
+[20:15:04.324] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 1398ms | orders=[53]
+400 0 64
+[20:15:04.504] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 400ms | orders=[53]
+1903 0 64
+[20:15:04.519] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 1903ms | orders=[53]
+[20:15:04.563] order 53 ✅ order RESPONSE +1361ms | msg=done
+{
+  message: 'done',
+  data: {
+    store: { name: 'gentlewoman', id: '5e3548c2d32cb12606a34fb8' },
+    order_id: 'GW2026071501398',
+    line_my_shop_order_id: null,
+    tiktok_shop_order_id: null,
+    lazada_shop_order_id: null,
+    url: '6vX27C0D',
+    expire: '2026-07-15T14:15:04.391Z',
+    discount: 0,
+    skus: [ [Object] ],
+    payments: [ [Object] ],
+    shipping: {
+      provider_name: 'EMS',
+      method: 'EMS',
+      fee: 0,
+      timestamp: null,
+      ref_code: null
+    },
+    shipping_address: {
+      tax_id: '1200100456428',
+      contact_no: '+66933956362',
+      title: '',
+      first_name: 'มงคล',
+      last_name: 'เรืองศิริ',
+      shipping_name: '',
+      address: '279 ม.13 ซอยปัญญา',
+      address2: '',
+      sub_district: 'คลองด่าน',
+      district: 'บางบ่อ',
+      state_province: 'สมุทรปราการ',
+      country: 'Thailand',
+      postcode: '10550',
+      email: 'pa-rungnapha@outlook.com',
+      note: '',
+      customer_id: ''
+    },
+    net: 590,
+    nationality: null,
+    gender: 'male',
+    note: '',
+    void_reason: '',
+    void_date: null,
+    completed_date: null,
+    current_state: 'pending',
+    status: 'active',
+    member: {
+      first_name: 'มงคล',
+      last_name: 'เรืองศิริ',
+      email: 'kuk-mongkol@outlook.com',
+      tel: '+66933956362',
+      current_type: 'normal',
+      id: 925759
+    },
+    promotion_code: null,
+    tags: [],
+    channel: 'web',
+    dhl_packages: [],
+    currency_rate: 1,
+    brand: 'Gentlewoman',
+    pos: null,
+    branch: null,
+    created_at: '2026-07-15T13:15:04.431Z',
+    updated_at: '2026-07-15T13:15:04.431Z',
+    updated_by: { email: 'system' },
+    created_by: { email: 'system' },
+    id: '6a5787d8e0702a6bb5418127'
+  }
+}
+Upstream error : v2.proxyempire.io
+412 0 64
+[20:15:04.619] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 412ms | orders=[53]
+429 0 64
+[20:15:04.745] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 430ms | orders=[53]
+869 0 64
+[20:15:04.756] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 869ms | orders=[53]
+2005 0 64
+[20:15:04.833] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 2005ms | orders=[53]
+457 0 64
+[20:15:04.884] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 457ms | orders=[53]
+496 0 64
+[20:15:05.032] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 496ms | orders=[53]
+{
+  sentMessages: [
+    {
+      id: '622921254390989115',
+      quoteToken: 'dDitNfxLjlvr5ZWXuO48MF5h2Qm50fj1nXbRsDhEb6aQ3IF-eLcWEVzRBgYrvapAoH0FzLRvR_UQmci9VXCrlpMGA7Z5TBd8PT_UydFDmsdWXrRJx2n0UowmjfKkrxM6IHOAX2VHXH4gJbPDmqo4_g'
+    }
+  ]
+}
+381 0 64
+[20:15:05.127] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 382ms | orders=[53]
+Upstream error : v2.proxyempire.io
+375 0 64
+[20:15:05.233] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 376ms | orders=[53]
+{
+  sentMessages: [
+    {
+      id: '622921254692978694',
+      quoteToken: 'zU1DEXf40Z8VPEaB75b4V5qi_DySSRHTT_1XVJqksTqwTEyBrKvuybjDj3NiEW2DAYAyQTyXYSSN7-umx8MTJjC0sbv5RlkWYeGDyakR5bHDF-OBTy8lrQBJEs1fktOUqxbNilP4z1OqY6_4MozmkQ'
+    }
+  ]
+}
+1405 0 64
+[20:15:05.402] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 1405ms | orders=[53]
+1974 0 64
+[20:15:05.423] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 1974ms | orders=[53]
+789 0 64
+[20:15:05.432] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 789ms | orders=[53]
+408 0 64
+[20:15:05.586] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 408ms | orders=[53]
+2590 0 64
+[20:15:05.841] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 0 < on_hand 64 | proxyTime 2591ms | orders=[53]
+936 1 64
+[20:15:05.901] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 1 < on_hand 64 | proxyTime 936ms | orders=[53]
+405 1 64
+[20:15:05.907] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 1 < on_hand 64 | proxyTime 405ms | orders=[53]
+863 1 64
+[20:15:05.934] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 1 < on_hand 64 | proxyTime 863ms | orders=[53]
+6323 1 64
+[20:15:06.050] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 1 < on_hand 64 | proxyTime 6324ms | orders=[53]
+443 1 64
+[20:15:06.053] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 1 < on_hand 64 | proxyTime 443ms | orders=[53]
+361 1 64
+[20:15:06.079] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 1 < on_hand 64 | proxyTime 361ms | orders=[53]
+834 1 64
+[20:15:06.228] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 1 < on_hand 64 | proxyTime 834ms | orders=[53]
+438 1 64
+[20:15:06.266] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 1 < on_hand 64 | proxyTime 439ms | orders=[53]
+1062 1 64
+[20:15:06.343] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 1 < on_hand 64 | proxyTime 1062ms | orders=[53]
+469 1 64
+[20:15:06.404] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 1 < on_hand 64 | proxyTime 469ms | orders=[53]
+2852 1 64
+[20:15:06.413] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 1 < on_hand 64 | proxyTime 2852ms | orders=[53]
+418 1 64
+[20:15:06.464] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 1 < on_hand 64 | proxyTime 418ms | orders=[53]
+392 1 64
+[20:15:06.545] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 1 < on_hand 64 | proxyTime 392ms | orders=[53]
+3213 1 64
+[20:15:06.563] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 1 < on_hand 64 | proxyTime 3213ms | orders=[53]
+526 1 64
+[20:15:06.894] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 1 < on_hand 64 | proxyTime 526ms | orders=[53]
+560 1 64
+[20:15:07.026] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 1 < on_hand 64 | proxyTime 560ms | orders=[53]
+596 1 64
+[20:15:07.167] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 1 < on_hand 64 | proxyTime 597ms | orders=[53]
+424 1 64
+[20:15:07.319] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 1 < on_hand 64 | proxyTime 424ms | orders=[53]
+461 1 64
+[20:15:07.573] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 1 < on_hand 64 | proxyTime 461ms | orders=[53]
+Upstream error : v2.proxyempire.io
+583 1 64
+[20:15:07.583] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 1 < on_hand 64 | proxyTime 583ms | orders=[53]
+416 1 64
+[20:15:07.632] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 1 < on_hand 64 | proxyTime 416ms | orders=[53]
+395 1 64
+[20:15:07.715] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 1 < on_hand 64 | proxyTime 395ms | orders=[53]
+1311 1 64
+[20:15:07.989] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 1 < on_hand 64 | proxyTime 1311ms | orders=[53]
+375 1 64
+[20:15:08.008] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 1 < on_hand 64 | proxyTime 375ms | orders=[53]
+1749 1 64
+[20:15:08.009] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 1 < on_hand 64 | proxyTime 1749ms | orders=[53]
+1235 1 64
+[20:15:08.022] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 1 < on_hand 64 | proxyTime 1235ms | orders=[53]
+630 1 64
+[20:15:08.053] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 1 < on_hand 64 | proxyTime 631ms | orders=[53]
+393 1 64
+[20:15:08.233] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 1 < on_hand 64 | proxyTime 393ms | orders=[53]
+760 1 64
+[20:15:08.292] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 1 < on_hand 64 | proxyTime 761ms | orders=[53]
+636 1 64
+[20:15:08.376] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 1 < on_hand 64 | proxyTime 636ms | orders=[53]
+443 1 64
+[20:15:08.391] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 1 < on_hand 64 | proxyTime 443ms | orders=[53]
+456 1 64
+[20:15:08.509] 🟢 STOCK OPEN | product 1085041 sku LW.4.99.99.3452.4.4 | reserved 1 < on_hand 64 | proxyTime 456ms | orders=[53]
+^CTerminate batch job (Y/N)?

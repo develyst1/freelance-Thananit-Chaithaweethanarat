@@ -10,11 +10,11 @@ from bin.lib.ToolsLineShopping import ToolsLineShopping
 # =========================
 # CONFIG
 # =========================
-token = "eyJhbGciOiJIUzI1NiJ9.pdP2A86nmMwkTWNL0SHL9yKHvka12x1X_k0_54e9WYStpYVKlxQE41eb2GyStSV7LirkIBU5jdEki6k77ujJF8bF3nQucSB9zQjiToM33EDLG8sMRKKItAlQEpVuC1Hyx02MHd9CTpzmaXGnAdK29mSFAusZwbkKTV6FxAmUxys.g_Y51psoq7mURqBSjTK9Z2JxeKyP-PI8JxT0jWh29M8"
+token = "eyJhbGciOiJIUzI1NiJ9.fFXfs6FS3uDrGo3BPbscHfxWd-qr2BuxO57gQ1okrgPUOLjlwyecMRSqysjDZpy2Bfe4PugYtdx4V_O0hu7QwHVKUVl4FAhb2KYj2wb3zD1e9ivftNpXZnfAjV3HO3uFmMG-V30RCI_c-swXxuLGYnlnqzxSOhAPy66_Rd3ODFQ.yzNse0Uk3lbICw51akx16oGEjEX74EgfFHp5gxAh5"
 
-shop_name = "@c_service"
-id_product = 1008157171
-size = "S SHORT"
+shop_name = "@endlessholiday"
+id_product = 1008329612
+size = "L"
 quantity = 1
 
 start_bot_at = None
@@ -22,7 +22,7 @@ start_bot_at = None
 use_time_mode = True
 
 allowed_time_ranges = [
-    ("9:59:59", "23:59:59")
+    ("09:59:59", "23:59:59")
 ]
 
 poll_interval_seconds = 1

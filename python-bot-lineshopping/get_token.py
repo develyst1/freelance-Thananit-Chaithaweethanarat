@@ -107,6 +107,7 @@ def capture_token(timeout_s=wait_login_seconds, out=print, profile_dir=None):
             user_data_dir=profile_dir,
             channel="chrome",
             headless=False,
+            chromium_sandbox=True,  # sandbox ON: no "--no-sandbox" warning bar in her Chrome
         )
         try:
             context.on("request", on_request)

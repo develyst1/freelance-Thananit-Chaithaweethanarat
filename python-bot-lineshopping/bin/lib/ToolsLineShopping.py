@@ -1,6 +1,7 @@
 class ToolsLineShopping():
-    def __init__(self):
-        pass
+    def __init__(self, number=""):
+        # สินค้าที่มีตัวเลือก Number ด้วย (เช่น Number + Size) ใส่เลขที่ต้องการ ว่างไว้ถ้าไม่มี
+        self.number = str(number or "").strip()
 
     def normalize_variant_text(self, text):
         """
@@ -91,15 +92,35 @@ class ToolsLineShopping():
             }
 
         target_size = self.normalize_variant_text(size)
-        matched_variant = None
+        target_number = self.normalize_variant_text(self.number)
+        matches = []
 
+        # size ตรงกับ value1 หรือ value2 ก็ได้ ถ้าใส่ number ไว้ อีกตัวเลือกต้องตรงกับ number
         for variant in variants:
-            variant_name = self.normalize_variant_text(
-                variant.get("variant_option_value1", "")
-            )
-            if variant_name == target_size:
-                matched_variant = variant
-                break
+            raw1 = variant.get("variant_option_value1", "")
+            raw2 = variant.get("variant_option_value2", "")
+            value1 = self.normalize_variant_text(raw1)
+            value2 = self.normalize_variant_text(raw2)
+            if value1 == target_size:
+                other_raw, other = raw2, value2
+            elif value2 == target_size:
+                other_raw, other = raw1, value1
+            else:
+                continue
+            if target_number and other != target_number:
+                continue
+            matches.append((variant, other_raw))
+
+        if len(matches) > 1 and not target_number:
+            others = ", ".join(str(other_raw or "-") for _, other_raw in matches)
+            return {
+                "ok": False,
+                "message": f"สินค้านี้มีตัวเลือก Number ด้วย — ใส่ number ใน CONFIG (มี: {others})",
+                "variant": None,
+                "need_number": True
+            }
+
+        matched_variant = matches[0][0] if matches else None
 
         if not matched_variant:
             return {

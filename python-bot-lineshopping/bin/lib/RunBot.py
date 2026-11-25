@@ -1,3 +1,4 @@
+import json
 import os
 import re
 import sys
@@ -144,7 +145,7 @@ def explain_error(step, exc):
         return "ไม่พบสินค้า — เช็คลิงก์สินค้าอีกครั้ง"
 
     if step == "place_order" and (status == 409 or "3999" in text or "3999" in str(exc)):
-        return "สั่งไม่ผ่าน (รหัส 3999) — ลองเอา Token ใหม่ ถ้ายังเป็นอีกให้แคปหน้าจอส่งผู้ดูแล"
+        return "LINE ไม่รับคำสั่งซื้อ (รหัส 3999) — ยังไม่ได้ซื้อ รีบกดซื้อเองในมือถือ แล้วถ่ายรูปหน้าจอส่งผู้ดูแล"
 
     short = str(exc).strip().splitlines()[0] if str(exc).strip() else exc.__class__.__name__
     if len(short) > 150:
@@ -155,6 +156,164 @@ def explain_error(step, exc):
 def is_not_found(exc):
     response = getattr(exc, "response", None)
     return response is not None and getattr(response, "status_code", None) == 404
+
+
+# =========================
+# บันทึกตอน LINE ไม่รับคำสั่งซื้อ: order_fail_<bot>.txt
+# มีแต่ชื่อช่องและรูปแบบ ไม่มีค่าใดๆ (ไม่มีรหัส ชื่อ ที่อยู่ เบอร์ อีเมล เลขคำสั่งซื้อ)
+# =========================
+
+SAFE_KEY_RE = re.compile(r"^[A-Za-z_][A-Za-z_-]{0,40}[0-9]{0,2}$")
+
+
+def safe_key(key):
+    """ชื่อช่องปกติเท่านั้น ถ้าชื่อช่องเป็นรหัส/เลข/ข้อมูลคน จะไม่เขียน"""
+    return str(key) if SAFE_KEY_RE.match(str(key)) else "<key>"
+
+
+def sent_shape(value, name, depth=0):
+    """สิ่งที่ส่งไป: filled | empty | null | true | false | list(n)"""
+    pad = "  " * depth
+    if isinstance(value, dict):
+        lines = [f"{pad}{name}: object" if value else f"{pad}{name}: empty"]
+        for k, v in value.items():
+            lines += sent_shape(v, safe_key(k), depth + 1)
+        return lines
+    if isinstance(value, (list, tuple)):
+        lines = [f"{pad}{name}: list({len(value)})"]
+        if value and isinstance(value[0], dict):
+            for k, v in value[0].items():
+                lines += sent_shape(v, safe_key(k), depth + 1)
+        return lines
+    if value is None:
+        kind = "null"
+    elif isinstance(value, bool):
+        kind = "true" if value else "false"
+    else:
+        kind = "empty" if value == "" else "filled"
+    return [f"{pad}{name}: {kind}"]
+
+
+def answer_shape(value, path="", depth=0, max_depth=4):
+    """คำตอบ checkout: ชื่อช่อง + ชนิด ลึกไม่เกิน 4 ชั้น ไม่มีค่า"""
+    if isinstance(value, dict):
+        lines = [f"{path}: object"] if path else []
+        if depth < max_depth:
+            for k, v in value.items():
+                key = safe_key(k)
+                lines += answer_shape(v, f"{path}.{key}" if path else key, depth + 1, max_depth)
+        return lines
+    if isinstance(value, list):
+        lines = [f"{path}: list({len(value)})"]
+        if value and isinstance(value[0], (dict, list)):
+            lines += answer_shape(value[0], path + "[0]", depth, max_depth)[1:]
+        return lines
+    kind = "null" if value is None else {"str": "text", "int": "number", "float": "number"}.get(type(value).__name__,
+                                                                                                type(value).__name__)
+    return [f"{path}: {kind}"]
+
+
+# ข้อความ error จาก LINE อาจมีชื่อ ที่อยู่ หรือรหัสปนมา: เขียนเฉพาะคำในรายการนี้ นอกนั้นเป็น *
+ERROR_WORDS = set("""
+a an and are at be by can cannot could did do does for from has have in is it no not of on or please than that the this to too
+was were with your you
+access account action address again allow allowed already amount api app application auth authentication authorization
+authorized available bad banned block blocked body bot buy buyer campaign cancel captcha cart change changed channel check checkout
+city client closed code conflict contact country coupon create created credential customer data date default delivery denied detail
+device disabled district duplicate duplicated email empty enabled error exceed exceeded exist exists expire expired fail failed field
+forbidden format found friend gateway gone header human id inactive incorrect insufficient internal invalid inventory item items key
+later length limit limited line location locked login many match max maximum member membership method mid min minimum mismatch
+missing name network new null number object ok once only open option order out parameter params payload payment pending permission
+phone point postal preorder price process processing product profile promotion province purchase qr quantity quota rate reach reached
+refused rejected request required reserved resource response restricted retry robot sale sales seller server service session shipment
+shipping shop size sku snapshot sold spam state status stock string sub success support suspended system temporarily terms timeout
+token try type unable unauthorized unavailable unexpected unknown unpaid unsupported update user valid validation value variant
+verification verified verify version wait wrong
+""".split())
+
+
+def safe_error_text(value):
+    text = re.sub(r"[A-Za-z]+", lambda m: m.group() if m.group().lower() in ERROR_WORDS else "*", str(value))
+    text = re.sub(r"[^A-Za-z _.,:;()-]+", "*", text)
+    return " ".join(text.split())[:300]
+
+
+def token_source_file(token_file):
+    return token_file[:-len(".txt")] + ".src.txt"
+
+
+def write_token_source(token_file, line):
+    try:
+        with open(token_source_file(token_file), "w", encoding="utf-8") as f:
+            f.write(line)
+    except OSError:
+        pass
+
+
+def token_facts(api, config):
+    """(อายุไฟล์รหัสเป็นวินาที, ที่มาของรหัส) ของรหัสที่ใช้อยู่ตอนนี้ — ไม่มีตัวรหัส"""
+    token_file = token_file_for(config)
+    if read_token_file(token_file) != clean_token(getattr(api, "token", "")):
+        return "-", "วางเอง (ไม่ตรงกับไฟล์รหัส)"
+    written = os.path.getmtime(token_file)
+    age = int(time.time() - written)
+    source_file = token_source_file(token_file)
+    if not os.path.isfile(source_file) or os.path.getmtime(source_file) < written - 5:
+        return age, "ไม่ทราบ (ไม่มีบันทึกที่มา)"
+    with open(source_file, encoding="utf-8") as f:
+        return age, " ".join(f.read().split())[:300]
+
+
+def log_order_failure(step, exc, api, config, shop_name, id_product, data_product, stock_result, quantity,
+                      sent, check_out=None):
+    """เขียนหลังได้คำตอบแล้วเท่านั้น และไม่ว่าเกิดอะไรขึ้นต้องไม่กระทบการซื้อ"""
+    try:
+        product = (data_product or {}).get("data", {}) or {}
+        variant = (stock_result or {}).get("variant") or {}
+        response = getattr(exc, "response", None)
+        request = getattr(response, "request", None) or getattr(exc, "request", None)
+        age, source = token_facts(api, config)
+        lines = [
+            f"===== {now_str()} · {bot_id(config)} · {step} ไม่ผ่าน =====",
+            f"shop: {shop_name} · product: {id_product} · has_variant: {bool(product.get('has_variant'))}"
+            f" · option chosen: {variant.get('id') is not None} · quantity: {quantity}",
+            f"HTTP status: {getattr(response, 'status_code', None) if response is not None else '-'}"
+            f" · error type: {type(exc).__name__}",
+            f"token: file age {age} s · source: {source}",
+        ]
+
+        lines.append("[error body]")
+        body = None
+        if response is not None:
+            try:
+                body = json.loads(response.text or "")
+            except Exception:
+                lines.append("  (not JSON)")
+        if isinstance(body, dict):
+            for key in ("message", "error_code", "error_message"):
+                if body.get(key) is None or isinstance(body.get(key), (dict, list)):
+                    continue
+                text = str(body[key])
+                if not (key == "error_code" and re.match(r"^[0-9]{1,5}$", text)):
+                    text = safe_error_text(text)
+                lines.append(f"  {key}: {text}")
+
+        for title, holder in (("response header names", response), ("sent header names", request)):
+            names = sorted(str(n) for n in (getattr(holder, "headers", None) or {})
+                           if re.match(r"^[A-Za-z0-9_-]{1,40}$", str(n)))
+            lines.append(f"[{title}] {', '.join(names) or '-'}")
+
+        lines.append("[sent body]")
+        for key, value in (sent or {}).items():
+            lines += sent_shape(value, safe_key(key), 1)
+        lines.append("[checkout answer]")
+        lines += ["  " + line for line in answer_shape(check_out)] if check_out else ["  -"]
+
+        path = os.path.join(bot_folder(config), f"order_fail_{bot_id(config)}.txt")
+        with open(path, "a", encoding="utf-8") as f:
+            f.write("\n".join(lines) + "\n\n")
+    except Exception:
+        pass
 
 
 # =========================
@@ -432,6 +591,33 @@ class TokenFailed(Exception):
     """Token ใช้ไม่ได้ตอนตรวจซ้ำก่อนเปิดขาย"""
 
 
+class OptionMismatch(Exception):
+    """สินค้าเปิดแล้ว แต่ตัวเลือกที่พิมพ์ไว้ไม่ชี้ไปที่ตัวเลือกเดียวชัดเจน — หยุด ไม่เดาซื้อ"""
+
+    def __init__(self, data_product):
+        super().__init__("ตัวเลือกไม่ตรง")
+        self.data_product = data_product
+
+
+def options_unclear(data_product, stock_result, tools, size):
+    """True = ห้ามซื้อ: ตัวเลือกที่พิมพ์ไว้ก่อนเปิดขายไม่ตรง หรือชี้ได้มากกว่า 1 ตัวเลือก"""
+    product = (data_product or {}).get("data", {}) or {}
+    variants = product.get("product_variants") or []
+    norm = tools.normalize_variant_text
+    if not product.get("has_variant"):
+        return bool(norm(tools.number) or norm(size))  # พิมพ์ตัวเลือกไว้ แต่สินค้าไม่แสดงตัวเลือก
+    if not variants:
+        return False
+    if stock_result.get("variant") is None:
+        return True
+    pairs = [(norm(v.get("variant_option_value1")), norm(v.get("variant_option_value2"))) for v in variants]
+    number = norm(tools.number)
+    if any(b for _, b in pairs) and not number:
+        return True
+    wanted = norm(size)
+    return sum(1 for a, b in pairs if (a, b) in ((wanted, number), (number, wanted))) != 1
+
+
 def check_stop(should_stop):
     if should_stop is not None and should_stop():
         raise StopRequested()
@@ -485,7 +671,8 @@ def wait_until_product_available(api, tools, shop_name, id_product, size, quanti
                                  poll_interval_seconds=2,
                                  use_time_mode=False,
                                  allowed_time_ranges=None,
-                                 should_stop=None):
+                                 should_stop=None,
+                                 strict_options=False):
     allowed_time_ranges = allowed_time_ranges or [("00:00:00", "23:59:59")]
 
     while True:
@@ -500,6 +687,11 @@ def wait_until_product_available(api, tools, shop_name, id_product, size, quanti
             data_product = api.info_product(shop_name, id_product)
 
             stock_result = tools.find_variant_by_size(data_product, size, quantity)
+
+            if strict_options and options_unclear(data_product, stock_result, tools, size):
+                print(f"[{now_str()}] สินค้าเปิดแล้ว แต่ตัวเลือกไม่ตรง: {stock_result['message']}")
+                print_variant_list(data_product)
+                raise OptionMismatch(data_product)
 
             if stock_result["ok"]:
                 print(
@@ -517,8 +709,13 @@ def wait_until_product_available(api, tools, shop_name, id_product, size, quanti
             if stock_result.get("variant") is None:
                 print_variant_list(data_product)
 
+        except OptionMismatch:
+            raise
         except Exception as e:
-            print(f"[{now_str()}] เช็คสินค้าไม่สำเร็จ: {explain_error('product', e)}")
+            if strict_options and is_not_found(e):
+                print(f"[{now_str()}] ยังไม่พบสินค้า รออยู่ …")
+            else:
+                print(f"[{now_str()}] เช็คสินค้าไม่สำเร็จ: {explain_error('product', e)}")
 
         sleep_or_stop(poll_interval_seconds, should_stop)
 
@@ -528,7 +725,7 @@ def wait_until_product_available(api, tools, shop_name, id_product, size, quanti
 # =========================
 
 def buy_flow(api, tools, shop_name, id_product, size, quantity, config, sale_at,
-             should_stop=None, on_tick=None, relogin=None, holder=None):
+             should_stop=None, on_tick=None, relogin=None, holder=None, strict_options=False):
     """คืน "ordered" | "found" | "error"
     กดหยุด = StopRequested · Token ตรวจซ้ำก่อนเปิดขายไม่ผ่าน = TokenFailed
     holder["api"] = api ที่ใช้อยู่ล่าสุด (ไว้ปิดตอนจบ)
@@ -564,6 +761,7 @@ def buy_flow(api, tools, shop_name, id_product, size, quantity, config, sale_at,
         use_time_mode=use_time_mode,
         allowed_time_ranges=get("allowed_time_ranges"),
         should_stop=should_stop,
+        strict_options=strict_options,
     )
 
     if not get("auto_checkout_and_order", True):
@@ -589,6 +787,8 @@ def buy_flow(api, tools, shop_name, id_product, size, quantity, config, sale_at,
         check_out = api.checkout(json_data=checkout_payload)
     except Exception as e:
         print(explain_error("checkout", e))
+        log_order_failure("checkout", e, api, config, shop_name, id_product, data_product, stock_result, quantity,
+                          checkout_payload)
         return "error"
     print(f"[{now_str()}] checkout สำเร็จ")
 
@@ -623,6 +823,8 @@ def buy_flow(api, tools, shop_name, id_product, size, quantity, config, sale_at,
         create_order = api.place_order(name_shop=shop_name, json_data=order_payload)
     except Exception as e:
         print(explain_error("place_order", e))
+        log_order_failure("place_order", e, api, config, shop_name, id_product, data_product, stock_result, quantity,
+                          order_payload, check_out)
         return "error"
     print("place_order result:", create_order)
     return "ordered"

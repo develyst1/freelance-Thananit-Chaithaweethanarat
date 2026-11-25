@@ -17,6 +17,13 @@ def bot_paths(name):
     return (os.path.join(BOT_FOLDER, f".line_profile_{name}"), os.path.join(BOT_FOLDER, f"token_{name}.txt"))
 
 
+def source_line(url, count):
+    """ที่มาของรหัส: ชื่อเครื่อง + เส้นทาง (ไม่มี query, ส่วนที่เป็นเลข/รหัสยาวถูกปิด) ไม่มีตัวรหัส"""
+    parsed = urlparse(url)
+    parts = ["{id}" if len(p) >= 24 or sum(c.isdigit() for c in p) >= 5 else p for p in parsed.path.split("/")]
+    return f"ดึงอัตโนมัติ · {parsed.hostname}{'/'.join(parts)} · พบรหัสต่างกัน {count} แบบ"
+
+
 def ask_bot_name(input_func=input):
     while True:
         answer = str(input_func("บันทึกรหัสให้บอทไหน (เช่น bot1):") or "").strip().lower()
@@ -77,7 +84,7 @@ def wait_for_valid_token(pending, wait, api_factory=None,
             return None
 
 
-def capture_token(timeout_s=wait_login_seconds, out=print, profile_dir=None):
+def capture_token(timeout_s=wait_login_seconds, out=print, profile_dir=None, source=None):
     """out = ฟังก์ชันแสดงข้อความ (ค่าเดิม print; หน้าต่างบอทส่งของตัวเองมา)
     profile_dir = โปรไฟล์ Chrome ของบอทนี้ (.line_profile_<bot>) — แต่ละบอทจำบัญชี LINE ของตัวเอง"""
     profile_dir = profile_dir or bot_paths("bot")[0]
@@ -91,6 +98,7 @@ def capture_token(timeout_s=wait_login_seconds, out=print, profile_dir=None):
     from bin.lib.RunBot import clean_token
 
     pending = []
+    seen = {}  # รหัส -> url ของคำขอแรกที่เห็น (อยู่ในหน่วยความจำเท่านั้น)
 
     def on_request(request):
         host = urlparse(request.url).hostname or ""
@@ -99,6 +107,8 @@ def capture_token(timeout_s=wait_login_seconds, out=print, profile_dir=None):
         authorization = request.headers.get("authorization")
         if authorization:
             token = clean_token(authorization)
+            if token:
+                seen.setdefault(token, request.url)
             if token and token not in pending:
                 pending.append(token)
 
@@ -122,7 +132,10 @@ def capture_token(timeout_s=wait_login_seconds, out=print, profile_dir=None):
                 except Exception:
                     return False
 
-            return wait_for_valid_token(pending, wait, timeout_s=timeout_s, out=out)
+            token = wait_for_valid_token(pending, wait, timeout_s=timeout_s, out=out)
+            if token and source is not None:
+                source["line"] = source_line(seen[token], len(seen))
+            return token
         finally:
             try:
                 context.close()
@@ -168,6 +181,8 @@ if __name__ == "__main__":
     name = bot_name.strip().lower() or ask_bot_name()
     profile_dir, token_path = bot_paths(name)
     print(f"บอท: {name} · หน้าต่าง Chrome ของบอทนี้: {os.path.basename(profile_dir)} · ไฟล์รหัส: {os.path.basename(token_path)}")
-    captured = capture_token(profile_dir=profile_dir)
-    if captured:
-        check_and_save(captured, path=token_path)
+    source = {}
+    captured = capture_token(profile_dir=profile_dir, source=source)
+    if captured and check_and_save(captured, path=token_path):
+        from bin.lib.RunBot import write_token_source
+        write_token_source(token_path, source.get("line", "ดึงอัตโนมัติ"))

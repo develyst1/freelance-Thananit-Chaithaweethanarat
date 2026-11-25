@@ -14,9 +14,9 @@ from tkinter import font as tkfont
 from tkinter import messagebox, ttk
 
 from bin.lib.ApiLineShopping import ApiiLineShopping
-from bin.lib.RunBot import (StopRequested, TokenFailed, bot_folder, bot_id, buy_flow, clean_token, explain_error,
-                            PRODUCT_HINT, parse_product_url, parse_sale_time, profile_dir_for, read_token_file,
-                            token_file_for, try_login)
+from bin.lib.RunBot import (OptionMismatch, StopRequested, TokenFailed, bot_folder, bot_id, buy_flow, clean_token,
+                            explain_error, is_not_found, PRODUCT_HINT, parse_product_url, parse_sale_time, profile_dir_for, read_token_file,
+                            token_file_for, try_login, write_token_source)
 from bin.lib.ToolsLineShopping import ToolsLineShopping
 
 FONT_CHOICES = ["Leelawadee UI", "Leelawadee", "Tahoma"]
@@ -84,6 +84,7 @@ class BotWindow:
         self.id_product = None
         self.option_maps = {"number": {}, "size": {}}
         self.variants = []
+        self.pending = False  # LINE ตอบ 404 (ยังไม่เปิด ปิดแล้ว หรือลิงก์ผิด): กดเริ่มรอได้
         self.number_key = None
         self.size_key = None
 
@@ -270,7 +271,7 @@ class BotWindow:
         self.account_label.configure(text="กำลังตรวจรหัส …", fg=GREY)
         self._thread(self._check_token_job, token)
 
-    def _check_token_job(self, token):
+    def _check_token_job(self, token, source=None):
         api = self.api_factory(token)
         try:
             profile = api.profile()
@@ -287,11 +288,17 @@ class BotWindow:
                 pass
             self.ui(self._token_result, None, None, message)
             return
-        try:
-            with open(self.token_file, "w", encoding="utf-8") as f:
-                f.write(token)
-        except OSError:
-            pass
+        same = read_token_file(self.token_file) == token
+        if not same:  # รหัสเดิมไม่เขียนทับ อายุและที่มาของรหัสจึงยังตรงจริง
+            try:
+                with open(self.token_file, "w", encoding="utf-8") as f:
+                    f.write(token)
+            except OSError:
+                pass
+        if source or not same:
+            line = source or "วางเอง"
+            write_token_source(self.token_file, line)
+            self.say(f"ที่มาของรหัส: {line}")
         self.ui(self._token_result, api, name, None)
 
     def _token_result(self, api, name, message):
@@ -324,6 +331,7 @@ class BotWindow:
 
     def _auto_token_job(self):
         capture = self.capture_func
+        source = {}
         if capture is None:
             try:
                 from get_token import capture_token
@@ -334,14 +342,14 @@ class BotWindow:
             profile = profile_dir_for(bot_id(self.config), bot_folder(self.config))
 
             def capture(out):
-                return capture_token(out=out, profile_dir=profile)
+                return capture_token(out=out, profile_dir=profile, source=source)
         token = capture(out=self.say)
         if not token:
             self.ui(self._auto_token_failed)
             return
         self.say("เจอรหัสแล้ว ✓")
         self.ui(self.token_var.set, token)
-        self._check_token_job(token)
+        self._check_token_job(token, source.get("line") or "ดึงอัตโนมัติ")
 
     def _auto_token_failed(self):
         self.account_label.configure(text="ดึงรหัสไม่สำเร็จ — ดูข้อความด้านล่าง หรือวางรหัสเอง", fg=RED)
@@ -349,6 +357,10 @@ class BotWindow:
     # ---------- สินค้า ----------
 
     def read_product(self):
+        # ล้างของเดิมก่อน กันกดเริ่มซื้อสินค้าของลิงก์เก่า
+        self.data_product = None
+        self.pending = False
+        self._update_start()
         parsed = parse_product_url(self.link_var.get())
         if not parsed:
             self.product_label.configure(text=PRODUCT_HINT, fg=RED)
@@ -361,7 +373,7 @@ class BotWindow:
         try:
             data = api.info_product(shop_name, id_product)
         except Exception as e:
-            self.ui(self._product_result, None, shop_name, id_product, explain_error("product", e))
+            self.ui(self._product_result, None, shop_name, id_product, explain_error("product", e), is_not_found(e))
             return
         finally:
             try:
@@ -370,7 +382,14 @@ class BotWindow:
                 pass
         self.ui(self._product_result, data, shop_name, id_product, None)
 
-    def _product_result(self, data, shop_name, id_product, message):
+    def _product_result(self, data, shop_name, id_product, message, not_found=False):
+        self.pending = data is None and not_found
+        box_state = "normal" if self.pending else "readonly"
+        self.number_box.configure(state=box_state)
+        self.size_box.configure(state=box_state)
+        if self.pending:
+            self._show_pending(shop_name, id_product)
+            return
         if data is None:
             self.data_product = None
             self.product_label.configure(text=message, fg=RED)
@@ -383,6 +402,28 @@ class BotWindow:
         self.product_label.configure(text=f"✓ {name}", fg=GREEN)
         self._update_title()
         self._build_options(product)
+        self._update_start()
+
+    def _show_pending(self, shop_name, id_product):
+        self.data_product, self.shop_name, self.id_product = None, shop_name, id_product
+        self.variants = []
+        self.option_maps = {"number": {}, "size": {}}
+        text = ("ไม่พบสินค้าตอนนี้ (ยังไม่เปิด ปิดไปแล้ว หรือลิงก์ผิด) — ถ้ายังไม่เปิด กดเริ่มรอได้ "
+                "พิมพ์ Number / Size เองถ้ามีตัวเลือก")
+        self.product_label.configure(text=text, fg=BLUE)
+        self.say(text)
+        self.options_hint.grid_forget()
+        self.number_box["values"] = ()
+        self.size_box["values"] = ()
+        self.number_var.set("")
+        self.size_var.set("")
+        self.number_label.configure(text="Number")
+        self.size_label.configure(text="Size")
+        self.number_label.grid(row=0, column=0, sticky="w")
+        self.number_box.grid(row=0, column=1, padx=(6, 24))
+        self.size_label.grid(row=0, column=2, sticky="w")
+        self.size_box.grid(row=0, column=3, padx=6)
+        self._update_title()
         self._update_start()
 
     def _build_options(self, product):
@@ -449,7 +490,10 @@ class BotWindow:
         var.set("")
 
     def selected(self, kind):
-        return self.option_maps[kind].get((self.number_var if kind == "number" else self.size_var).get(), "")
+        text = (self.number_var if kind == "number" else self.size_var).get()
+        if self.pending:
+            return text.strip()
+        return self.option_maps[kind].get(text, "")
 
     def _refresh_sizes(self, preselect=None):
         number = self.selected("number") if self.number_key else None
@@ -467,7 +511,11 @@ class BotWindow:
     # ---------- เริ่ม / หยุด ----------
 
     def _ready(self):
-        if self.api is None or self.data_product is None:
+        if self.api is None:
+            return False
+        if self.pending:
+            return True
+        if self.data_product is None:
             return False
         if not getattr(self, "variants", None):
             return True
@@ -489,7 +537,7 @@ class BotWindow:
         if self.now_var.get():
             return None, None
         date_text = self.date_var.get().strip()
-        time_text = self.time_var.get().strip()
+        time_text = self.time_var.get().strip().replace(".", ":")
         if not time_text:
             return None, "ใส่เวลาเปิดขาย หรือติ๊ก 'เริ่มทันที'"
         try:
@@ -503,12 +551,16 @@ class BotWindow:
     def start(self):
         if not self._ready():
             return
+        if parse_product_url(self.link_var.get()) != (self.shop_name, self.id_product):
+            self.set_status("ลิงก์เปลี่ยนไปแล้ว — กดอ่านสินค้าก่อน", RED)
+            return
         sale_at, problem = self._sale_time()
         if problem:
             self.set_status(problem, RED)
             return
-        tools = ToolsLineShopping(number=self.selected("number") if self.number_key else "")
-        size = self.selected("size") if getattr(self, "variants", None) else ""
+        strict = self.pending
+        tools = ToolsLineShopping(number=self.selected("number") if strict or self.number_key else "")
+        size = self.selected("size") if strict or getattr(self, "variants", None) else ""
 
         # หน้าต่างไม่ใช้โหมดช่วงเวลาเดิม (use_time_mode) และ start_bot_at
         config = dict(self.config, use_time_mode=False, start_bot_at=None)
@@ -523,7 +575,8 @@ class BotWindow:
         else:
             self.set_status("กำลังเช็คสินค้า", BLUE)
         self.worker = threading.Thread(
-            target=self._buy_job, args=(tools, size, config, sale_at), daemon=True)
+            target=self._buy_job,
+            args=(tools, size, config, sale_at, self.shop_name, self.id_product, strict), daemon=True)
         self.worker.start()
 
     def _relogin(self, current):
@@ -546,14 +599,15 @@ class BotWindow:
         minutes, seconds = divmod(rest, 60)
         self.ui(self.count_label.configure, {"text": f"เหลืออีก {hours:02d}:{minutes:02d}:{seconds:02d}"})
 
-    def _buy_job(self, tools, size, config, sale_at):
+    def _buy_job(self, tools, size, config, sale_at, shop_name, id_product, strict):
         holder = {}
+        mismatch = None
         result, color, text = "error", RED, "ผิดพลาด"
         try:
-            outcome = buy_flow(self.api, tools, self.shop_name, self.id_product, size,
+            outcome = buy_flow(self.api, tools, shop_name, id_product, size,
                                config.get("quantity", 1), config, sale_at,
                                should_stop=self.stop_event.is_set, on_tick=self._tick,
-                               relogin=self._relogin, holder=holder)
+                               relogin=self._relogin, holder=holder, strict_options=strict)
             if outcome == "ordered":
                 color, text = GREEN, "สั่งซื้อแล้ว"
             elif outcome == "found":
@@ -561,12 +615,25 @@ class BotWindow:
         except StopRequested:
             self.say("หยุดแล้ว")
             color, text = GREY, "หยุดแล้ว"
+        except OptionMismatch as e:
+            mismatch = e.data_product
         except TokenFailed:
             self.say("Token ใช้ไม่ได้ — กดตรวจรหัส/ดึงรหัสใหม่ แล้วกดเริ่มอีกครั้ง")
             holder["api"] = None
         except BaseException as e:  # ไม่ให้ traceback หลุดไปหน้าจอเธอ
             self.say(explain_error("bot", e))
         self.ui(self._job_done, holder.get("api", self.api), color, text)
+        if mismatch is not None:
+            self.ui(self._option_mismatch, mismatch, shop_name, id_product)
+
+    def _option_mismatch(self, data, shop_name, id_product):
+        """เปิดขายแล้วแต่ตัวเลือกที่พิมพ์ไม่ตรง: เติมรายการจริงให้เลือก แล้วกดเริ่มได้ทันที"""
+        self._product_result(data, shop_name, id_product, None)
+        self.number_var.set("")  # ให้เลือกเองใหม่ ไม่หยิบค่าใน CONFIG มาแทนสิ่งที่พิมพ์
+        self._refresh_sizes(preselect="")
+        self.now_var.set(True)
+        self._update_start()
+        self.set_status("ตัวเลือกไม่ตรง — เลือกจากรายการ แล้วกดเริ่มทันที", RED)
 
     def _job_done(self, api, color, text):
         self.running = False

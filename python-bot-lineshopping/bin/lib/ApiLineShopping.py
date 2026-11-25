@@ -86,7 +86,8 @@ class ApiiLineShopping:
     def place_order(self, name_shop, json_data, x_la_session_id='27410faa389540d3'):
         headers = {
             'authorization': self.token,
-            'x-la-session-id': x_la_session_id,
+            # 'x-la-session-id': x_la_session_id,
+            'x-ls-secret': "atdsYN-CFXizC-ZqnJpc",
         }
         response = self.session.post(
             f'https://sc-oms-api.line-apps.com/api/v6/shopend/{name_shop}/order/place-order-qr',
